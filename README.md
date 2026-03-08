@@ -1,7 +1,7 @@
 
 ---
 
-<p align="justify"><h1>Relatório Técnico: Detecção de Anomalias via Ensemble Robusto</h1></p>
+<p align="justify"><h1>Detecção de Anomalias via Ensemble Robusto</h1></p>
 
 <p align="justify">Este documento apresenta a análise comparativa entre o modelo baseline <b>Isolation Forest (IF)</b> e a arquitetura proposta de <b>Ensemble Robusto</b>, que combina o IF com o <b>Balanced Random Forest (BRF)</b>. O foco central é a superação da degradação de performance em cenários de alta complexidade estatística e monitoramento de ativos críticos.</p>
 
