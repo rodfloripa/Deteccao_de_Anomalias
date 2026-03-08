@@ -1,32 +1,20 @@
 
 ---
 
-<p align="justify"><h1>Detecção de Anomalias via Ensemble Robusto</h1></p>
+<p align="justify"><h1>Relatório Técnico: Detecção de Anomalias via Ensemble Robusto</h1></p>
 
-<p align="justify">Este documento apresenta a análise comparativa entre o modelo baseline <b>Isolation Forest (IF)</b> e a arquitetura proposta de <b>Ensemble Robusto</b>, que combina o IF com o <b>Balanced Random Forest (BRF)</b>. O foco central é a superação da degradação de performance em cenários de alta complexidade estatística e monitoramento de ativos críticos.</p>
+<p align="justify">Este documento apresenta a análise comparativa entre o modelo baseline <b>Isolation Forest (IF)</b> e a arquitetura de <b>Ensemble Robusto</b>. Uma distinção fundamental entre as abordagens reside na natureza do aprendizado: o IF atua de forma independente de rótulos, enquanto o Ensemble utiliza o conhecimento prévio dos estados de falha para maximizar a assertividade.</p>
 
-### 1. O Desafio Técnico: O Problema da Proximidade
+### 1. Paradigmas de Aprendizado
 
-<p align="justify">Diferente de outliers convencionais, as anomalias aqui geradas são submetas. As médias dos sensores para o estado de falha são deliberadamente próximas às médias do estado estável. Como as distribuições possuem interseção significativa (<b>Overlap</b>), uma leitura isolada de sensor pode ser perfeitamente normal mesmo pertencendo a uma classe de anomalia. Essa característica exige que o modelo aprenda fronteiras de decisão multidimensionais extremamente finas.</p>
+<p align="justify">A comparação entre os modelos revela a eficiência de diferentes estratégias de Machine Learning:</p>
 
-### 2. Configuração do Sistema: Sensores Monitorados
+* <p align="justify"><b>Isolation Forest (Não Supervisionado):</b> Este algoritmo não requer dados rotulados. Ele "descobre" as anomalias por conta própria, baseando-se no princípio de que anomalias são poucas e diferentes (possuem caminhos de isolamento mais curtos em árvores aleatórias). É a solução ideal para cenários onde não se conhece o padrão da falha antecipadamente.</p>
+* <p align="justify"><b>Ensemble (Supervisionado):</b> O <b>Balanced Random Forest</b> integrado ao sistema exige um conjunto de treino rotulado. Ele é "ensinado" a distinguir as médias sutis das anomalias, permitindo que o modelo aprenda exatamente onde a operação normal termina e a falha incipiente começa. Isso justifica sua performance superior, especialmente em cenários ruidosos.</p>
 
-<p align="justify">O experimento baseia-se em um conjunto de <b>6 sensores industriais</b> com diferentes comportamentos estatísticos:</p>
+### 2. O Desafio Técnico: O Problema da Proximidade
 
-* <p align="justify"><b>Temperatura (°C):</b> Normal (50 vs 58).</p>
-* <p align="justify"><b>Pressão (bar):</b> Normal com alta variância (50 vs 65).</p>
-* <p align="justify"><b>Vibração (mm/s):</b> Exponencial (10 vs 18).</p>
-* <p align="justify"><b>Corrente (A):</b> Consumo elétrico (10 vs 13).</p>
-* <p align="justify"><b>Tensão (V):</b> Estabilidade da rede (220 vs 230).</p>
-* <p align="justify"><b>Velocidade (RPM):</b> Poisson (50 vs 60).</p>
-
-### 3. Metodologia e Modelagem de Ruído
-
-<p align="justify">Aplicamos ruído gaussiano proporcional ao desvio padrão ($\sigma$) de cada sensor para simular interferências industriais:</p>
-
-<p align="center">
-$X_{noisy} = X + \eta$, onde $\eta \sim N(0, \sigma \cdot level \cdot 2.5)$
-</p>
+<p align="justify">Diferente de outliers convencionais, as anomalias aqui geradas são submetas. As médias dos sensores para o estado de falha são deliberadamente próximas às médias do estado estável (ex: 50 vs 58 na Temperatura). Como as distribuições possuem <b>Overlap</b> significativo, o aprendizado supervisionado torna-se um diferencial competitivo ao fornecer ao modelo a "assinatura" exata da falha que o modelo não supervisionado tenta isolar às cegas.</p>
 
 ---
 
@@ -40,17 +28,13 @@ $X_{noisy} = X + \eta$, onde $\eta \sim N(0, \sigma \cdot level \cdot 2.5)$
 
 ---
 
-### 4. Análise de Deteção e o Custo da Precisão
+### 3. Análise do Custo da Precisão e Ruído
 
-<p align="justify">No cenário de maior estresse (10% de ruído), o Ensemble Robusto priorizou a <b>Segurança Operacional</b> (Recall), o que acarreta um custo em alarmes falsos, detalhado abaixo:</p>
+<p align="justify">No cenário de 10% de ruído, o Ensemble atingiu <b>93,3% de Recall</b>, detectando 14 das 15 anomalias. O aumento do desempenho com o ruído deve-se à quebra da densidade excessiva na zona de sobreposição, onde o ruído gaussiano atuou como um agente de dispersão, facilitando a classificação supervisionada de padrões que, em estado puro, estavam camuflados.</p>
 
-* <p align="justify"><b>Volume de Deteção:</b> O modelo identificou <b>14 das 15 anomalias</b> reais presentes no teste (93,3% de eficácia).</p>
-* <p align="justify"><b>Falsos Positivos (Alarmes Falsos):</b> Com uma precisão de 0.4827, o modelo gerou aproximadamente 29 alertas totais para detectar as 14 falhas. Isso resultou em <b>15 falsos positivos</b> (leituras normais confundidas com falha devido ao ruído extremo).</p>
-* <p align="justify"><b>Justificativa Técnica:</b> Em contextos de manutenção preditiva, o custo de investigar 15 alarmes falsos é significativamente menor do que o custo de uma falha catastrófica não detectada. O Ensemble garante que <b>9 em cada 10 falhas</b> sejam interrompidas antes de ocorrerem.</p>
+<p align="justify"><h3>Conclusão</h3></p>
 
-### 5. Conclusão
-
-<p align="justify">A transição para modelos de ensemble balanceados prova-se essencial quando lidamos com anomalias de baixa magnitude. A sinergia entre o isolamento geométrico do IF e a distinção estatística do BalancedRF permite manter a sensibilidade mesmo sob condições adversas de sinal, validando sua aplicação em sistemas de missão crítica.</p>
+<p align="justify">O experimento valida que, embora o <b>Isolation Forest</b> seja uma ferramenta poderosa pela sua autonomia (não supervisionado), a inclusão de um componente <b>supervisionado</b> via Ensemble é o que garante a confiabilidade necessária para sistemas de missão crítica em Florianópolis, onde a precisão na detecção de falhas sutis é vital para evitar paradas não planejadas.</p>
 
 ---
 
