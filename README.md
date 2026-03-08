@@ -34,7 +34,7 @@
 
 <p align="justify"><h3>Conclusão</h3></p>
 
-<p align="justify">O experimento valida que, embora o <b>Isolation Forest</b> seja uma ferramenta poderosa pela sua autonomia (não supervisionado), a inclusão de um componente <b>supervisionado</b> via Ensemble é o que garante a confiabilidade necessária para sistemas de missão crítica em Florianópolis, onde a precisão na detecção de falhas sutis é vital para evitar paradas não planejadas.</p>
+<p align="justify">O experimento valida que, embora o <b>Isolation Forest</b> seja uma ferramenta poderosa pela sua autonomia (não supervisionado), a inclusão de um componente <b>supervisionado</b> via Ensemble é o que garante a confiabilidade necessária para sistemas de missão crítica , onde a precisão na detecção de falhas sutis é vital para evitar paradas não planejadas.</p>
 
 ---
 
