@@ -31,6 +31,9 @@
 ### 3. Análise do Custo da Precisão e Ruído
 
 <p align="justify">No cenário de 10% de ruído, o Ensemble atingiu <b>93,3% de Recall</b>, detectando 14 das 15 anomalias. O aumento do desempenho com o ruído deve-se à quebra da densidade excessiva na zona de sobreposição, onde o ruído gaussiano atuou como um agente de dispersão, facilitando a classificação supervisionada de padrões que, em estado puro, estavam camuflados.</p>
+<p align="justify"><b>Falsos Positivos (Alarmes Falsos):</b> Com uma precisão de 0.4827, o modelo gerou aproximadamente 29 alertas totais para detectar as 14 falhas. Isso resultou em <b>15 falsos positivos</b> (leituras normais confundidas com falha devido ao ruído extremo).</p>
+
+<p align="justify"><b>Justificativa Técnica:</b> Em contextos de manutenção preditiva, o custo de investigar 15 alarmes falsos é significativamente menor do que o custo de uma falha catastrófica não detectada. O Ensemble garante que <b>9 em cada 10 falhas</b> sejam interrompidas antes de ocorrerem.</p>
 
 <p align="justify"><h3>Conclusão</h3></p>
 
