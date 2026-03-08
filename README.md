@@ -7,9 +7,7 @@
 
 <p align="justify"><h3>1. O Desafio Técnico: O Problema da Proximidade</h3></p>
 
-<p align="justify">Diferente de <i>outliers</i> convencionais (pontos extremos que fogem completamente do padrão), as anomalias aqui geradas são <b>submetas</b>. As médias dos sensores para o estado de falha são deliberadamente próximas às médias do estado estável, o que cria um desafio de separabilidade para o modelo.</p>
-
-<p align="justify">Como as distribuições possuem <b>interseção significativa (Overlap)</b>, uma leitura isolada de sensor pode ser perfeitamente normal mesmo pertencendo a uma classe de anomalia. O modelo deve, portanto, aprender a correlação multidimensional entre os sensores para distinguir os padrões.</p>
+<p align="justify">Diferente de <i>outliers</i> convencionais, as anomalias aqui geradas são <b>submetas</b>. As médias dos sensores para o estado de falha são deliberadamente próximas às médias do estado estável. Como as distribuições possuem <b>interseção significativa (Overlap)</b>, uma leitura isolada de sensor pode ser perfeitamente normal mesmo pertencendo a uma classe de anomalia.</p>
 
 <p align="justify"><h3>2. Metodologia e Modelagem</h3></p>
 
@@ -25,24 +23,24 @@ $$X_{noisy} = X + \eta, \quad \text{onde } \eta \sim \mathcal{N}(0, \sigma \cdot
 
 <p align="justify"><h3>3. Análise de Sensibilidade e Resultados</h3></p>
 
-<p align="justify">Os resultados demonstram a correlação direta entre o ruído ambiental e a queda drástica de performance, medida pelo <b>F1-Score</b>. A tabela abaixo sintetiza o comportamento do modelo frente aos diferentes cenários de incerteza:</p>
+<p align="justify">Os resultados obtidos demonstram a dificuldade do modelo em lidar com a sobreposição severa, onde mesmo sem ruído o F1-Score apresenta valores desafiadores devido à similaridade das médias:</p>
 
-| Cenário | Nível de Ruído | Precision | Recall | **F1-Score** |
-| --- | --- | --- | --- | --- |
-| **Ideal** | 0% | 0.85 | 0.80 | **0.82** |
-| **Intermediário** | 5% | 0.66 | 0.57 | **0.61** |
-| **Crítico** | 10% | 0.33 | 0.37 | **0.35** |
+| Nível de Ruído | F1-Score | Precision | Recall |
+| --- | --- | --- | --- |
+| <p align="justify"><b>0%</b></p> | <p align="justify">0.444</p> | <p align="justify">0.500</p> | <p align="justify">0.400</p> |
+| <p align="justify"><b>5%</b></p> | <p align="justify">0.333</p> | <p align="justify">0.444</p> | <p align="justify">0.266</p> |
+| <p align="justify"><b>10%</b></p> | <p align="justify">0.347</p> | <p align="justify">0.500</p> | <p align="justify">0.266</p> |
 
 <p align="justify"><h3>4. Justificativa dos Resultados</h3></p>
 
-* <p align="justify"><b>Baixo Ruído:</b> O Isolation Forest consegue identificar as anomalias por meio da combinação de variáveis, mesmo com médias próximas, explorando a estrutura densa do dado normal.</p>
-* <p align="justify"><b>Alto Ruído:</b> O ruído "preenche" as lacunas entre as distribuições. Isso faz com que anomalias pareçam normais (aumento de Falsos Negativos) e dados normais pareçam anômalos devido à dispersão (aumento de Falsos Positivos).</p>
+* <p align="justify"><b>Baixo Recall:</b> O baixo valor de Recall (0.400 no cenário base) indica que a proximidade das médias faz com que o Isolation Forest classifique muitas anomalias como pontos de alta densidade (normais).</p>
+* <p align="justify"><b>Impacto do Ruído:</b> A introdução de apenas 5% de ruído causou uma queda acentuada no F1-Score, estabilizando em patamares baixos em 10%, o que prova que a incerteza estatística "soterra" o sinal da anomalia.</p>
 
 <hr>
 
 <p align="justify"><h3>Conclusão</h3></p>
 
-<p align="justify">O experimento evidencia que a detecção de anomalias em sistemas reais é, acima de tudo, um desafio de <b>relação sinal-ruído</b>. Quando as distribuições se fundem, a métrica de contaminação do modelo torna-se extremamente sensível, exigindo técnicas avançadas de pré-processamento ou modelos mais robustos (como Autoencoders) para manter a confiabilidade operacional.</p>
+<p align="justify">O experimento evidencia que a detecção de anomalias em sistemas reais é, acima de tudo, um desafio de <b>relação sinal-ruído</b>. Para este caso específico de alta sobreposição, estratégias de <i>Ensemble</i> mais robustas ou o uso de <b>DPO (Direct Preference Optimization)</b>  poderiam ser adaptadas para "ensinar" ao modelo a distinção fina entre esses estados.</p>
 
 ---
 
