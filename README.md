@@ -1,9 +1,9 @@
 
 ---
 
-<p align="justify"><h1>Relatório Técnico: Detecção de Anomalias via Ensemble Robusto</h1></p>
+<p align="justify"><h1>Detecção de Anomalias via Ensemble Robusto</h1></p>
 
-<p align="justify">Este documento apresenta a análise comparativa entre o modelo baseline <b>Isolation Forest (IF)</b> e a arquitetura de <b>Ensemble Robusto</b>. Uma distinção fundamental entre as abordagens reside na natureza do aprendizado: o IF atua de forma independente de rótulos, enquanto o Ensemble utiliza o conhecimento prévio dos estados de falha para maximizar a assertividade.</p>
+<p align="justify">Este texto apresenta a análise comparativa entre o modelo baseline <b>Isolation Forest (IF)</b> e a arquitetura de <b>Ensemble Robusto</b>. Uma distinção fundamental entre as abordagens reside na natureza do aprendizado: o IF atua de forma independente de rótulos, enquanto o Ensemble utiliza o conhecimento prévio dos estados de falha para maximizar a assertividade.</p>
 
 ### 1. Paradigmas de Aprendizado
 
